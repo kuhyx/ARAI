@@ -1,1 +1,24 @@
-<p>case-input works!</p>
+<form [formGroup]="userInputForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="start">
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Generic Input</mat-label>
+      <input matInput formControlName="generic_input">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Trial Value</mat-label>
+      <input matInput type="number" formControlName="trial_value">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location">
+    </mat-form-field>
+  
+    <div fxFlex fxLayout="column" fxLayoutGap="10px">
+      <mat-checkbox formControlName="experts_called">Experts Called</mat-checkbox>
+      <mat-checkbox formControlName="witnesses_called">Witnesses Called</mat-checkbox>
+    </div>
+  
+    <button mat-raised-button type="submit" (click)="onSubmit()" fxFlexAlign="end">Submit</button>
+  </form>
+  

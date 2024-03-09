@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { CaseInputComponent } from './case-input/case-input.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [RouterOutlet, CaseInputComponent, FlexLayoutModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

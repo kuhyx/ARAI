@@ -1,12 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
-import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInput, UserInputRequest } from './requests-responses';
+import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInputRequest, userInput } from './requests-responses';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  address = "localhost:1227";
+  address = "localhost:8080";
 
   public genericResponsesArray: GenericResponse[] = [];
   public userInputArray: UserInputRequest[] = [];
@@ -16,7 +15,7 @@ export class BackendService {
   public statisticsOutputResponseArrayEvent = new EventEmitter<StatisticsOutputResponse>();
   
 
-  private socket: Socket =  io(`http://${this.address}`);
+  private websocket: WebSocket | null = null;
 
   constructor() {
     this.connect();
@@ -35,20 +34,19 @@ export class BackendService {
   }
 
   private connect(): void {
-    this.socket = io(`http://${this.address}`);
-    this.socket.on('connect', () => {
-      console.log('Connected to WebSocket server');
-    });
-
+    this.websocket = new WebSocket(`http://${this.address}`);
+    this.websocket.onmessage = (event: MessageEvent) => {
+      this.filterMessages(event as unknown as GenericResponse);
+    };
     // Listen for messages
-    this.socket.on('message', (message: GenericResponse) => {
+    this.websocket.on('message', (message: GenericResponse) => {
       this.filterMessages(message);
     });
   }
 
   public sendMessage(message: GenericRequest): void {
     if(message.request_type === "user_input") {
-      this.userInputArray.push(message as UserInput);
+      this.userInputArray.push(message as UserInputRequest);
     }
     this.socket.emit('message', message);
   }
