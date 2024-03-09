@@ -16,14 +16,14 @@ def recommended_mediators():
 
     input = data.get('request_data', {})
     
-    result = calc_stats("2", 25000, True)
+    {liczba_miesiecy, koszt} = calc_stats("2", 25000, True)
     print(result)
 
     top_5 = {
         "response_type": "recommended_mediators",
         "response_data": [{
-            "cost_of_trial": 5000,
-            "time_of_trial": 70
+            "cost_of_trial": koszt,
+            "time_of_trial": liczba_miesiecy
             }, [{
             "name": "Mateusz Szpyruk",
             "specialization": "Prawo podatkowe",
@@ -127,6 +127,6 @@ def calc_stats(typ,kwota,biegly):
         return_string = f"Średni czas trwania rozprawy typu {mapka[TYP]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa krócej niz rok, a jej minimalny koszt wynosi {koszt}"     
         print(return_string)
 
-        return return_string
+        return {liczba_miesiecy, koszt}
 if __name__ == '__main__':
     app.run(debug=True)
