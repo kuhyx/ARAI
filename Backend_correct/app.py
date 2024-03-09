@@ -16,15 +16,14 @@ def recommended_mediators():
 
     input = data.get('request_data', {})
     
-    {liczba_miesiecy, koszt} = calc_stats("2", 25000, True)
-    print(result)
+    liczba_miesiecy, koszt = calc_stats("2", 25000, True)
 
     top_5 = {
         "response_type": "recommended_mediators",
-        "response_data": [{
+        "response_data": {"first": {
             "cost_of_trial": koszt,
             "time_of_trial": liczba_miesiecy
-            }, [{
+            }, "second": [{
             "name": "Mateusz Szpyruk",
             "specialization": "Prawo podatkowe",
             "location": input.get("location"),
@@ -45,7 +44,7 @@ def recommended_mediators():
             "ai_rating": 90,
             "user_rating": 99,
             "number_of_opinions": 5
-            }]]
+            }]}
         }
 
     return jsonify(top_5)
@@ -99,34 +98,10 @@ def calc_stats(typ,kwota,biegly):
         else:
             koszt = koszt_sadu + koszt_adwokata
         print(f"Średni czas trwania rozprawy typu {mapka[typ]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa dłuzej niz rok, jej minimalny koszt wyniesie {koszt}")
-    
-    elif kwota > 100000:
-        df = pd.read_excel(danePath,sheet_name='okreg')
-        mask = df['RODZAJ'] == int(typ)
-        liczba_miesiecy = df[mask]['mean']
-        procent = (1 - df[mask]['procent do 12 miesięcy']) * 100
+        returnMiesiace = round(liczba_miesiecy,0).to_string(index=False)
+        print(returnMiesiace, koszt)
+        return returnMiesiace, koszt
 
-        if kwota <= 200000:
-            koszt_adwokata = 5400
-        elif kwota > 200000 and kwota <= 2000000:
-            koszt_adwokata = 10800
-        elif kwota > 2000000 and kwota <= 5000000:
-            koszt_adwokata = 15000
-        elif kwota > 500000:
-            koszt_adwokata = 25000
-        
-        koszt_sadu = kwota * 0.05
-        if koszt_sadu > 20000:
-            koszt_sadu = 20000
-        
-        if biegly == 'True':
-            koszt = koszt_sadu + koszt_adwokata + koszt_bieglego
-        else:
-            koszt = koszt_sadu + koszt_adwokata
 
-        return_string = f"Średni czas trwania rozprawy typu {mapka[TYP]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa krócej niz rok, a jej minimalny koszt wynosi {koszt}"     
-        print(return_string)
-
-        return {liczba_miesiecy, koszt}
 if __name__ == '__main__':
     app.run(debug=True)

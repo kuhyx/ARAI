@@ -63,6 +63,19 @@ export class RecommendedMediatorsResponse extends GenericResponse {
     }
 }
 
+interface response {
+    first: {
+        cost_of_trial: number,
+        time_of_trial: number
+    },
+    second: RecommendedMediatorsInterface[];
+}
+
+export class ReturnResponse {
+    "response_type" = "recommended_mediators";
+    "response_data": response
+}
+
 export interface StatisticsOutputInterface {
     "cost_of_trial": number,
     "time_of_trial": number

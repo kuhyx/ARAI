@@ -3,6 +3,7 @@ import { StatisticsOutputInterface } from '../requests-responses';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule  } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { KosztaService } from '../koszta.service';
 
 @Component({
   selector: 'app-cost-view',
@@ -17,7 +18,14 @@ export class CostViewComponent {
   time_of_trial: Date.UTC(0, 6, 0, 0, 0, 0, 0)
 };
 
-constructor(private readonly router: Router) {}
+constructor(private readonly router: Router, private readonly kosztaService: KosztaService) {}
+
+ngOnInit() {
+  this.costData = {
+    cost_of_trial: Number(this.kosztaService.koszta),
+    time_of_trial: Number(this.kosztaService.czas),
+  }
+}
 
 public calculateTimeDifference(utcDateNumber: number): string {
   const currentDate = new Date();

@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInputRequest } from './requests-responses';
+import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, ReturnResponse, StatisticsOutputResponse, UserInputRequest } from './requests-responses';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class BackendService {
     }
   }
 
-  public sendMessage(message: GenericRequest): Promise<GenericResponse> {
+  public sendMessage(message: GenericRequest): Promise<ReturnResponse> {
     return new Promise((resolve, reject) => {
       if (message.request_type === "user_input") {
         this.userInputArray.push(message as UserInputRequest);
@@ -41,7 +41,7 @@ export class BackendService {
   
       console.log(`request: `, JSON.stringify(message));
   
-      this.http.post<GenericResponse>(this.address, JSON.stringify(message), { headers }).subscribe({
+      this.http.post<ReturnResponse>(this.address, JSON.stringify(message), { headers }).subscribe({
         next: (response) => {
           console.log(`response: `, response);
           resolve(response);
