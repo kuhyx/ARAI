@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
+@cross_origin()
 @app.route("/", methods=['GET'])
 def recommended_mediators():
     data = request.get_json()
