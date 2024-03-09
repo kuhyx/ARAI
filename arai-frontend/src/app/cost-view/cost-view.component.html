@@ -1,16 +1,17 @@
 <div class="main">  
+    <img class="center-image" src="../../assets/favicon.png">
 <div class="legal-costs">
-    Przewidywalne <u> minimalne </u> koszta:
+    Przewidywania:
     @if(costData !== null) {
         <div class="cost-details">
-            Koszta: <span class="cost">{{costData.cost_of_trial}}</span> zł <br>
-            Czas:   <span class="time"> 20 </span> miesięcy
+            <p class="text-gap"> Minimalny koszt: <span class="cost">{{costData.cost_of_trial}}</span> zł <br> </p>
+            Średni czas:   <span class="time"> 20 </span> miesięcy
         </div>
     }
 </div>
 
 
-<h1 class="bait"> Chcesz znacznie zredukować koszta? </h1>
+<h1 class="bait"> Skorzystaj z pomocy mediatora </h1>
 <div class="center-button"> 
 <button mat-raised-button color="primary" class="find-mediator" type="submit" (click)="onSubmit()" class="submit-button">Znajdź Mediatora</button>
 </div>

@@ -1,8 +1,10 @@
 
+
 <div class="page-container">
+  <img class="center-image" src="../../assets/favicon.png">
   @if(!receivedInfo) {
 <form [formGroup]="userInputForm" (ngSubmit)="onSubmit()" class="lawyering-form">
-  <h1 class="center"> Oblicz koszta i czas sporu </h1>
+  <h1 class="center"> Oszacuj koszt i czas procesu </h1>
 
   <mat-form-field appearance="outline" class="custom-form-field">
     <mat-label>Opis Sprawy</mat-label>
@@ -15,7 +17,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="custom-form-field">
-    <mat-label>Lokacja</mat-label>
+    <mat-label>Miasto</mat-label>
     <input matInput formControlName="location" class="text-input">
   </mat-form-field>
 

@@ -10,6 +10,15 @@
   margin: 0 auto;
 }
 
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 150px;
+}
+
+
 .main {
   display: flex;
   justify-content: center;
@@ -36,7 +45,12 @@
   color: #28a745;
 }
 
+.text-gap {
+  margin-bottom: 10px;
+}
+
 .bait {
+  margin-top: 20px;
   text-align: center;
 }
 

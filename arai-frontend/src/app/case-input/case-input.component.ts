@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { BackendService } from '../backend.service';
 import { GenericRequest, Mediator, ReturnResponse, UserInputRequest, userInput } from '../requests-responses';
 import { Router } from '@angular/router';
-import { KosztaService } from '../koszta.service';
+import { kosztService } from '../koszta.service';
 import { MediatorzyService } from '../mediatorzy.service';
 
 
@@ -27,7 +27,7 @@ export class CaseInputComponent {
   userInput: userInput | null = null;
   receivedInfo: boolean = false;
 
-  constructor(private fb: FormBuilder, private readonly backendService: BackendService, private readonly router: Router, private readonly kosztaService: KosztaService, private readonly mediatorzyService: MediatorzyService) {
+  constructor(private fb: FormBuilder, private readonly backendService: BackendService, private readonly router: Router, private readonly kosztService: kosztService, private readonly mediatorzyService: MediatorzyService) {
     this.userInputForm = this.fb.group({
       generic_input: ['pracodawca nie wyplacil mi wynagrodzenia za ostatnie 2 miesiace i mnie zwolnil'],
       trial_value: [1000],
@@ -48,8 +48,8 @@ export class CaseInputComponent {
       this.receivedInfo = true;
       const result = await this.backendService.sendMessage(new UserInputRequest(this.userInput)) as ReturnResponse;
       this.mediatorzyService.setMediatorzy(CaseInputComponent.convertToMediators(result.response_data.second as unknown as string[]));
-      this.kosztaService.czas = String(result.response_data.first.time_of_trial);
-      this.kosztaService.koszta = String(result.response_data.first.cost_of_trial);
+      this.kosztService.czas = String(result.response_data.first.time_of_trial);
+      this.kosztService.koszt = String(result.response_data.first.cost_of_trial);
       console.log(`result: `, result);
       this.router.navigate(['koszt']);
       }
