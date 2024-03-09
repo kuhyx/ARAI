@@ -19,7 +19,7 @@ export class GenericRequest {
 
 export interface userInput {
     "generic_input": string, 
-    "trial_value": number,
+    "trial_cost": number,
     "location": string,
     "experts_called": boolean,
     "witnesses_called": boolean

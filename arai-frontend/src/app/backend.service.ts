@@ -1,11 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInputRequest, userInput } from './requests-responses';
+import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInputRequest } from './requests-responses';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  address = "localhost:8080";
+  address = "http://localhost:5000";
 
   public genericResponsesArray: GenericResponse[] = [];
   public userInputArray: UserInputRequest[] = [];
@@ -15,10 +16,8 @@ export class BackendService {
   public statisticsOutputResponseArrayEvent = new EventEmitter<StatisticsOutputResponse>();
   
 
-  private websocket: WebSocket | null = null;
 
-  constructor() {
-    this.connect();
+  constructor(private http: HttpClient) {
   }
 
   private filterMessages(message: GenericResponse) {
@@ -33,21 +32,17 @@ export class BackendService {
     }
   }
 
-  private connect(): void {
-    this.websocket = new WebSocket(`http://${this.address}`);
-    this.websocket.onmessage = (event: MessageEvent) => {
-      this.filterMessages(event as unknown as GenericResponse);
-    };
-    // Listen for messages
-    this.websocket.on('message', (message: GenericResponse) => {
-      this.filterMessages(message);
-    });
-  }
-
   public sendMessage(message: GenericRequest): void {
     if(message.request_type === "user_input") {
       this.userInputArray.push(message as UserInputRequest);
     }
-    this.socket.emit('message', message);
+    const headers = new HttpHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    console.log(`request: `, JSON.stringify(message));
+    this.http.post(this.address, JSON.stringify(message), {headers}).subscribe((response) => {
+      console.log(`response: `, response);
+    })
   }
 }

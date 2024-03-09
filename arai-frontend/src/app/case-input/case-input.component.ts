@@ -2,18 +2,15 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input'
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button'
 import { BackendService } from '../backend.service';
-import { UserInputRequest, userInput } from '../requests-responses';
+import { GenericRequest, UserInputRequest, userInput } from '../requests-responses';
 
 
 @Component({
   selector: 'app-case-input',
   standalone: true,
   imports: [
-    // other modules
-    CommonModule,
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
@@ -34,6 +31,18 @@ export class CaseInputComponent {
       experts_called: [false],
       witnesses_called: [false]
     });
+  }
+
+  ngOnInit() {
+    const data: userInput = {
+      "generic_input": "Rozwodzę się z żoną i chcę uczciwie podzielić majątek",
+      "trial_cost": 1000,
+      "location": "Katowice",
+      "experts_called": true,
+      "witnesses_called": true
+  }
+    const newRequest = new UserInputRequest(data);
+    this.backendService.sendMessage(newRequest);
   }
 
   onSubmit(): void {
