@@ -20,7 +20,7 @@ def calc_stats(typ=TYP,KWOTA=KWOTA,BIEGLY = BIEGLY):
     koszt_bieglego= 1789.42
     koszt = 0
     if KWOTA < 100000 and typ != '4':
-        df = pd.read_excel('dane.xlsx',sheet_name='rejon')
+        df = pd.read_excel('..\statystyki\dane.xlsx',sheet_name='rejon')
         mask = df['RODZAJ'] == int(typ)
         liczba_miesiecy = df[mask]['mean']
         procent = (1 - df[mask]['procent do 12 miesięcy']) * 100
@@ -64,7 +64,7 @@ def calc_stats(typ=TYP,KWOTA=KWOTA,BIEGLY = BIEGLY):
         print(f"Średni czas trwania rozprawy typu {mapka[typ]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa dłuzej niz rok, jej minimalny koszt wyniesie {koszt}")
     
     elif KWOTA > 100000:
-        df = pd.read_excel('dane.xlsx',sheet_name='okreg')
+        df = pd.read_excel('..\statystyki\dane.xlsx',sheet_name='okreg')
         mask = df['RODZAJ'] == int(typ)
         liczba_miesiecy = df[mask]['mean']
         procent = (1 - df[mask]['procent do 12 miesięcy']) * 100
@@ -87,6 +87,9 @@ def calc_stats(typ=TYP,KWOTA=KWOTA,BIEGLY = BIEGLY):
         else:
             koszt = koszt_sadu + koszt_adwokata
 
-        print(f"Średni czas trwania rozprawy typu {mapka[TYP]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa krócej niz rok, a jej minimalny koszt wynosi {koszt}")
+        return_string = f"Średni czas trwania rozprawy typu {mapka[TYP]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa krócej niz rok, a jej minimalny koszt wynosi {koszt}"     
+        print(return_string)
+
+        return return_string
 
 calc_stats()

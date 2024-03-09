@@ -1,5 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+import pathlib
+import sys
+import pandas as pd
+import os
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -11,7 +15,9 @@ def recommended_mediators():
     data = request.get_json()
 
     input = data.get('request_data', {})
-    # print(input.get("location"))
+    
+    tmp = os.system('python3 ..\statystyki\load_data.py -t 1 -k 25000 -b True')
+    print(tmp)
 
     top_5 = {
         "response_type": "recommended_mediators",
@@ -39,11 +45,10 @@ def recommended_mediators():
             "ai_rating": 90,
             "user_rating": 99,
             "number_of_opinions": 5
-            }]]
+            }], tmp]
         }
 
-
-    return jsonify(top_5)
+    return jsonify(tmp)
 
 if __name__ == '__main__':
     app.run(debug=True)
