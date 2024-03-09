@@ -1,52 +1,107 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
+import pathlib
+import sys
+import pandas as pd
+import os
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
+@cross_origin()
 @app.route("/", methods=['POST'])
-def statistics_output():
-    data = request.get_json()
-    cost_of_trial = data.get('response_data', {}).get('cost_of_trial')
-    time_of_trial = data.get('response_data', {}).get('time_of_trial')
-    
-    response = {
-        "response_type": "statics_output",
-        "response_data": {
-            "cost_of_trial": cost_of_trial, # cena w PLN (integer)
-            "time_of_trial": time_of_trial # czas w formacie UTC (unix time stamp)
-        }
-    }
-
-    return jsonify(response)
-
 def recommended_mediators():
     data = request.get_json()
-    request_type = data.get('request_type', {}).get('request_type')
-    request_data = data.get('request_data', {}).get('experts_called')
-    generic_input = data.get('generic_input', {}).get('generic_input')
-    trial_cost = data.get('trial_cost', {}).get('trial_cost')
-    localization = data.get('localization', {}).get('localization')
-    experts_called = data.get('experts_called', {}).get('experts_called')
-    witnesses_called = data.get('witnesses_called', {}).get('witnesses_called')
 
-    top_5 = {}
-    list_of_mediators = []
-
-    for i in range(5):
-        mediator = {}
-        top_5.add(mediator)
+    input = data.get('request_data', {})
     
-    response = {
+    liczba_miesiecy, koszt = calc_stats("2", 25000, True)
+
+    top_5 = {
         "response_type": "recommended_mediators",
-        "response_data": {
-            "name": name,
-            "specialization": specialization,
-            "localization": localization,
-            "score": score,
-            "number_of_opinions": number_of_opinions
+        "response_data": {"first": {
+            "cost_of_trial": koszt,
+            "time_of_trial": liczba_miesiecy
+            }, "second": [{
+            "name": "Mateusz Szpyruk",
+            "specialization": "Prawo podatkowe",
+            "location": input.get("location"),
+            "ai_rating": 99,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }, {
+            "name": "Jan Kowalski",
+            "specialization": "Prawo pracy",
+            "location": input.get("location"),
+            "ai_rating": 90,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }, {
+            "name": "Jan Kowalski",
+            "specialization": "Prawo pracy",
+            "location": input.get("location"),
+            "ai_rating": 90,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }]}
         }
-    }
 
     return jsonify(top_5)
+
+
+def calc_stats(typ,kwota,biegly):
+    mapka = {'1':'cywilnej','2':'górniczej','3':'gospodarczej','4':'prawa pracy & ubezpieczeń'}
+    koszt_bieglego= 1789.42
+    koszt = 0
+    danePath = 'dane.xlsx'
+    if kwota < 100000 and typ != '4':
+        df = pd.read_excel(danePath,sheet_name='rejon')
+        mask = df['RODZAJ'] == int(typ)
+        liczba_miesiecy = df[mask]['mean']
+        procent = (1 - df[mask]['procent do 12 miesięcy']) * 100
+        koszt_sadu = 0
+        koszt_adwokata = 0
+        if kwota <= 500:
+            koszt_sadu = 30
+            koszt_adwokata = 90
+        elif kwota > 500 and kwota <= 1500:
+            koszt_sadu = 100
+            koszt_adwokata = 270
+        elif kwota > 1500 and kwota <= 4000:
+            koszt_sadu = 200
+        elif kwota > 4000 and kwota <= 7500:
+            koszt_sadu = 400
+        elif kwota > 7500 and kwota <= 10000:
+            koszt_sadu = 500    
+        elif kwota > 10000 and kwota <= 15000:
+            koszt_sadu = 750
+        elif kwota > 15000 and kwota <= 20000:
+            koszt_sadu = 1000
+        elif kwota > 20000:
+            koszt_sadu = kwota * 0.05
+            if koszt_sadu > 20000:
+                koszt_sadu = 20000
+
+        if kwota > 1500 and kwota <= 5000:
+            koszt_adwokata = 900
+        elif kwota > 5000 and kwota <= 10000:
+            koszt_adwokata = 1800
+        elif kwota > 10000 and kwota <= 50000:
+            koszt_adwokata = 3600    
+        elif kwota > 50000 and kwota <= 100000:
+            koszt_adwokata = 5400
+
+        
+        if biegly == 'True':
+            koszt = koszt_sadu + koszt_adwokata + koszt_bieglego
+        else:
+            koszt = koszt_sadu + koszt_adwokata
+        print(f"Średni czas trwania rozprawy typu {mapka[typ]} wynosi {round(liczba_miesiecy,0).to_string(index=False)} miesięcy, a {procent.to_string(index=False)}% spraw trwa dłuzej niz rok, jej minimalny koszt wyniesie {koszt}")
+        returnMiesiace = round(liczba_miesiecy,0).to_string(index=False)
+        print(returnMiesiace, koszt)
+        return returnMiesiace, koszt
+
 
 if __name__ == '__main__':
     app.run(debug=True)

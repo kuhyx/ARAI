@@ -1,0 +1,29 @@
+<div class="center"> 
+@for(mediator of mediatorzy; track mediator) {
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + generatePersonInfo() + ')'"></div>
+      <mat-card-title>{{ mediator.name }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ mediator.specialization }}
+        <div class="ratings-row"> 
+          <div class="golden-star">
+            {{ convertToStars(mediator.ai_rating) }}
+          </div>
+          Liczba opinii: {{ mediator.number_of_opinions }}
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+       <mat-icon>location_on </mat-icon>  {{ generateCity() }} {{ generateAddress() }}  <br> 
+       <mat-icon> attach_money</mat-icon> Cena za godzinę: {{ generateCost() }} zł<br>
+        @if(generateOnline()) { <p class="available"> Mediacja zdalna </p> }
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="umowSie()">UMÓW SIĘ</button>
+    </mat-card-actions>
+  </mat-card>
+}
+</div>
