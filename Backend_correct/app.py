@@ -6,7 +6,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 @cross_origin()
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['POST'])
 def recommended_mediators():
     data = request.get_json()
 
