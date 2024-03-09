@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/", methods=['GET'])
 def recommended_mediators():
     data = request.get_json()
 
-    request_type = data.get('request_data', {})
-    print(request_type)
+    input = data.get('request_data', {})
+    # print(input.get("location"))
 
     top_5 = {
         "response_type": "recommended_mediators",
@@ -17,21 +19,21 @@ def recommended_mediators():
             }, [{
             "name": "Mateusz Szpyruk",
             "specialization": "Prawo podatkowe",
-            "location": "Katowice",
+            "location": input.get("location"),
             "ai_rating": 99,
             "user_rating": 99,
             "number_of_opinions": 5
             }, {
             "name": "Jan Kowalski",
             "specialization": "Prawo pracy",
-            "location": "Katowice",
+            "location": input.get("location"),
             "ai_rating": 90,
             "user_rating": 99,
             "number_of_opinions": 5
             }, {
             "name": "Jan Kowalski",
             "specialization": "Prawo pracy",
-            "location": "Katowice",
+            "location": input.get("location"),
             "ai_rating": 90,
             "user_rating": 99,
             "number_of_opinions": 5
