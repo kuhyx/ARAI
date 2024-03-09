@@ -306,8 +306,6 @@ package-lock.json
 *.tmp
 *.vim
 tags
-.venv/
-venv/
 .theia/
 .vscode/
 
