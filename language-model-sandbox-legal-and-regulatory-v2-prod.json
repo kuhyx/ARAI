@@ -1,0 +1,414 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Language Model Sandbox - Legal and Regulatory V2 (Prod)",
+        "description": "Language Model Sandbox - Legal and Regulatory (Prod Environment)",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://lr-lm-sandbox-ams.azure-api.net/language-model-sandbox-legal-and-regulatory-v2-prod"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "LM SANDBOX API - INDEX API"
+                ],
+                "summary": "Index",
+                "description": "Index",
+                "operationId": "index__get",
+                "parameters": [
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "schema": {
+                            "title": "Status Code",
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                },
+                                "example": {
+                                    "detail": [
+                                        {
+                                            "loc": [
+                                                {}
+                                            ],
+                                            "msg": "string",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chat-completions/models/get": {
+            "get": {
+                "tags": [
+                    "LM SANDBOX API - AZURE OPENAI CHAT-COMPLETIONS MODELS EXPLORATION API"
+                ],
+                "summary": "Get Chat Completions Models",
+                "description": "Get the details of Chat Completions models, such as gpt-35-turbo, gpt-4 etc..",
+                "operationId": "get_chat_completions_models_api_chat_completions_models_get_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chat-completions": {
+            "post": {
+                "tags": [
+                    "LM SANDBOX API - AZURE OPENAI CHAT-COMPLETIONS MODELS EXPLORATION API"
+                ],
+                "summary": "Chat Completions",
+                "description": "Chat Completions models like gpt-35-turbo, gpt-4 etc..",
+                "operationId": "chat_completions_api_chat_completions_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChatCompletions"
+                            },
+                            "example": {
+                                "user_id": "string",
+                                "chat_completions_config": {
+                                    "model_name": "string",
+                                    "model_version": "string",
+                                    "temperature": 0,
+                                    "max_tokens": 0,
+                                    "top_p": 0,
+                                    "frequency_penalty": 0,
+                                    "presence_penalty": 0
+                                },
+                                "prompt": [
+                                    {
+                                        "role": "string",
+                                        "content": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                },
+                                "example": {
+                                    "detail": [
+                                        {
+                                            "loc": [
+                                                {}
+                                            ],
+                                            "msg": "string",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/embeddings/models/get": {
+            "get": {
+                "tags": [
+                    "LM SANDBOX API - AZURE OPENAI EMBEDDINGS MODELS EXPLORATION API"
+                ],
+                "summary": "Get Embeddings Models",
+                "description": "Get the details of GPT Embeddings models, such as text-embedding-ada-002",
+                "operationId": "get_embeddings_models_api_embeddings_models_get_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/embeddings": {
+            "post": {
+                "tags": [
+                    "LM SANDBOX API - AZURE OPENAI EMBEDDINGS MODELS EXPLORATION API"
+                ],
+                "summary": "Embeddings",
+                "description": "GPT Embeddings models like text-embedding-ada-002",
+                "operationId": "embeddings_api_embeddings_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Embeddings"
+                            },
+                            "example": {
+                                "user_id": "string",
+                                "model_name": "string",
+                                "model_version": "string",
+                                "input": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                },
+                                "example": {
+                                    "detail": [
+                                        {
+                                            "loc": [
+                                                {}
+                                            ],
+                                            "msg": "string",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChatCompletions": {
+                "title": "ChatCompletions",
+                "required": [
+                    "user_id",
+                    "chat_completions_config",
+                    "prompt"
+                ],
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "title": "User Id",
+                        "type": "string"
+                    },
+                    "chat_completions_config": {
+                        "$ref": "#/components/schemas/ChatCompletionsConfig"
+                    },
+                    "prompt": {
+                        "title": "Prompt",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChatCompletionsPrompt"
+                        }
+                    }
+                }
+            },
+            "ChatCompletionsConfig": {
+                "title": "ChatCompletionsConfig",
+                "required": [
+                    "model_name",
+                    "model_version",
+                    "temperature",
+                    "max_tokens",
+                    "top_p",
+                    "frequency_penalty",
+                    "presence_penalty"
+                ],
+                "type": "object",
+                "properties": {
+                    "model_name": {
+                        "title": "Model Name",
+                        "type": "string"
+                    },
+                    "model_version": {
+                        "title": "Model Version",
+                        "type": "string"
+                    },
+                    "temperature": {
+                        "title": "Temperature",
+                        "type": "number"
+                    },
+                    "max_tokens": {
+                        "title": "Max Tokens",
+                        "type": "integer"
+                    },
+                    "top_p": {
+                        "title": "Top P",
+                        "type": "number"
+                    },
+                    "frequency_penalty": {
+                        "title": "Frequency Penalty",
+                        "type": "number"
+                    },
+                    "presence_penalty": {
+                        "title": "Presence Penalty",
+                        "type": "number"
+                    }
+                }
+            },
+            "ChatCompletionsPrompt": {
+                "title": "ChatCompletionsPrompt",
+                "required": [
+                    "role"
+                ],
+                "type": "object",
+                "properties": {
+                    "role": {
+                        "title": "Role",
+                        "type": "string"
+                    },
+                    "content": {
+                        "title": "Content",
+                        "type": "string"
+                    }
+                }
+            },
+            "Embeddings": {
+                "title": "Embeddings",
+                "required": [
+                    "user_id",
+                    "model_name",
+                    "model_version",
+                    "input"
+                ],
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "title": "User Id",
+                        "type": "string"
+                    },
+                    "model_name": {
+                        "title": "Model Name",
+                        "type": "string"
+                    },
+                    "model_version": {
+                        "title": "Model Version",
+                        "type": "string"
+                    },
+                    "input": {
+                        "title": "Input",
+                        "type": "string"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
