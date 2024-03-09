@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { GenericRequest, GenericResponse, RecommendedMediatorsResponse, StatisticsOutputResponse, UserInputRequest } from './requests-responses';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +32,19 @@ export class BackendService {
     }
   }
 
-  public sendMessage(message: GenericRequest): Promise<GenericResponse> {
+  public sendMessage(message: UserInputRequest): Promise<GenericResponse> {
     return new Promise((resolve, reject) => {
       if (message.request_type === "user_input") {
         this.userInputArray.push(message as UserInputRequest);
       }
-      const headers = new HttpHeaders().set("Content-Type", "application/json");
-  
-      console.log(`request: `, JSON.stringify(message));
-  
-      this.http.post<GenericResponse>(this.address, JSON.stringify(message), { headers }).subscribe({
+      
+      // Assuming `serializeToQueryParams` is a method that converts your message object into HttpParams.
+      // You will need to implement this conversion based on your `GenericRequest` structure.
+      const params = this.serializeToQueryParams(message);
+
+      console.log(`request: `, params.toString());
+
+      this.http.get<GenericResponse>(`${this.address}`, { params }).subscribe({
         next: (response) => {
           console.log(`response: `, response);
           resolve(response);
@@ -53,4 +56,19 @@ export class BackendService {
       });
     });
   }
+
+  private serializeToQueryParams(message: GenericRequest): HttpParams {
+    let params = new HttpParams();
+    // Use a type assertion here to let TypeScript know the real type of the keys
+    (Object.keys(message) as Array<keyof GenericRequest>).forEach(key => {
+      const value = message[key];
+      if (value !== undefined) {
+        // Assuming all values are either string or can be converted to string
+        params = params.append(key, String(value));
+      }
+    });
+    return params;
+  }
+  
+  
 }

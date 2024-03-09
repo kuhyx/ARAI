@@ -41,3 +41,15 @@ body, html {
     }
   }
   
+
+  @media (max-width: 768px) {
+    .lawyering-form {
+      max-width: 90%; /* Allows more margin on smaller devices */
+    }
+    
+    .submit-button {
+      width: 100%; /* Makes the submit button full width on smaller screens */
+      align-self: center; /* Center align if preferred */
+    }
+  }
+  

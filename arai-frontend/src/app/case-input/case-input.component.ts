@@ -36,8 +36,6 @@ export class CaseInputComponent {
   async onSubmit() {
     this.userInput = this.userInputForm.value;
     if(this.userInput !== null) {
-    const newRequest = new UserInputRequest(this.userInput);
-    this.backendService.sendMessage(newRequest);
     const result = await this.backendService.sendMessage(new UserInputRequest(this.userInput));
     console.log(`result: `, result);
   } else {
