@@ -14,7 +14,7 @@ args = parser.parse_args()
 TYP = args.typ
 KWOTA = int(args.kwota)
 BIEGLY = str(args.biegly)
-print(TYP,KWOTA,BIEGLY)
+
 def calc_stats(typ=TYP,KWOTA=KWOTA,BIEGLY = BIEGLY):
     mapka = {'1':'cywilnej','2':'górniczej','3':'gospodarczej','4':'prawa pracy & ubezpieczeń'}
     koszt_bieglego= 1789.42
