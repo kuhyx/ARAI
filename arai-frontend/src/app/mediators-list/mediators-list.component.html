@@ -18,7 +18,7 @@
       <p>
        <mat-icon>location_on </mat-icon>  {{ generateCity() }} {{ generateAddress() }}  <br> 
        <mat-icon> attach_money</mat-icon> Cena za godzinę: {{ generateCost() }} zł<br>
-        @if(generateOnline()) { class="available">Mediacja zdalna }
+        @if(generateOnline()) { <p class="available"> Mediacja zdalna </p> }
       </p>
     </mat-card-content>
     <mat-card-actions>
