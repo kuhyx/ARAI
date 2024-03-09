@@ -1,16 +1,16 @@
 <div class="main">  
 <div class="legal-costs">
-    Przewidywalne minimalne koszta:
+    Przewidywalne <u> minimalne </u> koszta:
     @if(costData !== null) {
         <div class="cost-details">
             Koszta: <span class="cost">{{costData.cost_of_trial}}</span> zł <br>
-            Czas:   <span class="time">{{costData.time_of_trial | date:'L'}}</span> miesięcy
+            Czas:   <span class="time">{{costData.time_of_trial }}</span> miesięcy
         </div>
     }
 </div>
 
 
-<h1 class="bait"> Chcesz zminimalizować koszta aż do <strong> 90%? </strong> </h1>
+<h1 class="bait"> Chcesz znacznie zredukować koszta? </h1>
 <div class="center-button"> 
 <button mat-raised-button color="primary" class="find-mediator" type="submit" (click)="onSubmit()" class="submit-button">Znajdź Mediatora</button>
 </div>
