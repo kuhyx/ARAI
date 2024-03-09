@@ -1,34 +1,102 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table'
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { RecommendedMediatorsInterface } from '../requests-responses';
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button';
+import { faker } from '@faker-js/faker';
+import {MatIconModule } from '@angular/material/icon'
+import { MatDialog } from '@angular/material/dialog';
+import { EmailInputComponent } from '../email-input/email-input.component';
 
 @Component({
   selector: 'app-mediators-list',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [MatTableModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './mediators-list.component.html',
   styleUrl: './mediators-list.component.scss'
 })
 export class MediatorsListComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  @Input() mediatorzy: RecommendedMediatorsInterface[] = [
+    {
+        "name": "Mateusz Szpyruk",
+        "specialization": "Prawo podatkowe",
+        "localization": "Katowice",
+        "ai_rating": 99,
+        "user_rating": 99,
+        "number_of_opinions": 5
+    },
+    {
+        "name": "Jan Kowalski",
+        "specialization": "Prawo pracy",
+        "localization": "Katowice",
+        "ai_rating": 90,
+        "user_rating": 99,
+        "number_of_opinions": 5
+    },
+    {
+        "name": "Jan Kowalski",
+        "specialization": "Prawo pracy",
+        "localization": "Katowice",
+        "ai_rating": 76,
+        "user_rating": 99,
+        "number_of_opinions": 5
+    }
+]
+
+constructor(private readonly dialog: MatDialog) {}
+
+generatePersonInfo() {
+  const personInfo = {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    avatar: faker.image.avatar() // Generating person image
+  };
+  console.log(`faker.image.avatar(): `, faker.image.avatar());
+  const avatarUrl = personInfo.avatar;
+  return avatarUrl;
+}
+
+convertToStars(score: number): string {
+  if (score < 0 || score > 100) {
+    return 'Score must be between 0 and 100';
+  }
+
+  // Calculate the number of full stars
+  const fullStars = Math.floor(score / 20);
+  // Determine if there should be a half star
+  const halfStar = (score % 20) >= 10 ? 1 : 0;
+  // Calculate the number of empty stars
+  const emptyStars = 5 - fullStars - halfStar;
+
+  return '★'.repeat(fullStars) + '✩'.repeat(halfStar) + '☆'.repeat(emptyStars);
+}
+
+generateCity() {
+  return faker.location.city();
+}
+
+generateAddress() {
+  return faker.location.streetAddress();
+}
+
+generateCost() {
+  return faker.commerce.price();
+}
+
+generateOnline() {
+  return faker.datatype.boolean();
+}
+
+umowSie() {
+  const dialogRef = this.dialog.open(EmailInputComponent, {
+    width: '250px',
+    data: { /* Data passed to the modal */ }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+    // Optional: handle data returned from the modal
+  });
+}
 }

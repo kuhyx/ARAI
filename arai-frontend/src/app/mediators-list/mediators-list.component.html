@@ -1,32 +1,29 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-    </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+<div class="center"> 
+@for(mediator of mediatorzy; track mediator) {
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + generatePersonInfo() + ')'"></div>
+      <mat-card-title>{{ mediator.name }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ mediator.specialization }}
+        <div class="ratings-row"> 
+          <div class="golden-star">
+            {{ convertToStars(mediator.ai_rating) }}
+          </div>
+          Liczba opinii: {{ mediator.number_of_opinions }}
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+       <mat-icon>location_on </mat-icon>  {{ generateCity() }} {{ generateAddress() }}  <br> 
+       <mat-icon> attach_money</mat-icon> Cena za godzinę: {{ generateCost() }} zł<br>
+        @if(generateOnline()) { class="available">Mediacja zdalna }
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="umowSie()">UMÓW SIĘ</button>
+    </mat-card-actions>
+  </mat-card>
+}
+</div>

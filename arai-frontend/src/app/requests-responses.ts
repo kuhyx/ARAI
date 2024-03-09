@@ -48,7 +48,8 @@ export interface RecommendedMediatorsInterface {
     "name": string,
     "specialization": string, 
     "localization": string, 
-    "score": number, 
+    "ai_rating": number, 
+    "user_rating": number,
     "number_of_opinions": number
 }
 

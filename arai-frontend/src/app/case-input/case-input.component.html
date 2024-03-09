@@ -1,5 +1,7 @@
 <div class="page-container">
 <form [formGroup]="userInputForm" (ngSubmit)="onSubmit()" class="lawyering-form">
+  <h1 class="center"> Oblicz koszta i czas sporu </h1>
+
   <mat-form-field appearance="outline" class="custom-form-field">
     <mat-label>Opis Sprawy</mat-label>
     <textarea matInput formControlName="generic_input" class="text-area-input"></textarea>

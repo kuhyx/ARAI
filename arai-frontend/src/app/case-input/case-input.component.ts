@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatButtonModule } from '@angular/material/button'
 import { BackendService } from '../backend.service';
 import { GenericRequest, UserInputRequest, userInput } from '../requests-responses';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,10 +24,10 @@ export class CaseInputComponent {
   userInputForm: FormGroup;
   userInput: userInput | null = null;
 
-  constructor(private fb: FormBuilder, private readonly backendService: BackendService) {
+  constructor(private fb: FormBuilder, private readonly backendService: BackendService, private readonly router: Router) {
     this.userInputForm = this.fb.group({
       generic_input: [''],
-      trial_value: [0],
+      trial_value: [],
       location: [''],
       experts_called: [false],
       witnesses_called: [false]
@@ -37,7 +38,8 @@ export class CaseInputComponent {
     this.userInput = this.userInputForm.value;
     if(this.userInput !== null) {
     const result = await this.backendService.sendMessage(new UserInputRequest(this.userInput));
-    console.log(`result: `, result);
+        console.log(`result: `, result);
+    this.router.navigate(['koszt']);
   } else {
     console.error(`caseInputComponent, onSubmit, userInput is null!`)
   }

@@ -1,0 +1,44 @@
+.legal-costs {
+    font-family: 'Times New Roman', serif;
+    color: #2a2a2a; // Dark text for readability
+    background-color: #f5f5f5; // Light background to keep the content subtle
+    padding: 20px;
+    border: 1px solid #ddd; // Slight border for definition
+    border-radius: 5px; // Soften the edges for a modern look
+    font-size: 16px;
+
+    .cost-details {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fff; // A clean background for the cost details
+      border-left: 5px solid #004085; // A striking left border for emphasis
+      font-size: 24px;
+  
+      span {
+        font-weight: bold; // Make the dynamic content pop
+      }
+  
+      .cost {
+        color: #007bff; // A professional blue for costs
+      }
+  
+      .time {
+        color: #28a745; // A hopeful green for the time
+      }
+    }
+  }
+  
+
+.bait {
+    text-align: center;
+}
+
+.find-mediator {
+    width: 100%;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

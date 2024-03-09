@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { StatisticsOutputInterface } from '../requests-responses';
 import { DatePipe } from '@angular/common';
+import { MatButtonModule  } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cost-view',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, MatButtonModule],
   templateUrl: './cost-view.component.html',
   styleUrl: './cost-view.component.scss'
 })
@@ -14,6 +16,8 @@ export class CostViewComponent {
   cost_of_trial: 2137,
   time_of_trial: Date.UTC(0, 6, 0, 0, 0, 0, 0)
 };
+
+constructor(private readonly router: Router) {}
 
 public calculateTimeDifference(utcDateNumber: number): string {
   const currentDate = new Date();
@@ -38,6 +42,10 @@ public calculateTimeDifference(utcDateNumber: number): string {
   } else {
     return `Twoja sprawa zajmie około ${Math.ceil(differenceInDays)} dni`;
   }
+}
+
+onSubmit() {
+  this.router.navigate(["mediatorzy"]);
 }
 
 }

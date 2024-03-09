@@ -32,19 +32,16 @@ export class BackendService {
     }
   }
 
-  public sendMessage(message: UserInputRequest): Promise<GenericResponse> {
+  public sendMessage(message: GenericRequest): Promise<GenericResponse> {
     return new Promise((resolve, reject) => {
       if (message.request_type === "user_input") {
         this.userInputArray.push(message as UserInputRequest);
       }
-      
-      // Assuming `serializeToQueryParams` is a method that converts your message object into HttpParams.
-      // You will need to implement this conversion based on your `GenericRequest` structure.
-      const params = this.serializeToQueryParams(message);
-
-      console.log(`request: `, params.toString());
-
-      this.http.get<GenericResponse>(`${this.address}`, { params }).subscribe({
+      const headers = new HttpHeaders().set("Content-Type", "application/json");
+  
+      console.log(`request: `, JSON.stringify(message));
+  
+      this.http.post<GenericResponse>(this.address, JSON.stringify(message), { headers }).subscribe({
         next: (response) => {
           console.log(`response: `, response);
           resolve(response);
