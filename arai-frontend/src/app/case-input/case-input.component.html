@@ -1,4 +1,6 @@
+
 <div class="page-container">
+  @if(!receivedInfo) {
 <form [formGroup]="userInputForm" (ngSubmit)="onSubmit()" class="lawyering-form">
   <h1 class="center"> Oblicz koszta i czas sporu </h1>
 
@@ -24,4 +26,7 @@
 
   <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" class="submit-button">Wyślij</button>
 </form>
+  } @else {
+    LOADING DATA FROM BACKEND...
+  }
 </div>

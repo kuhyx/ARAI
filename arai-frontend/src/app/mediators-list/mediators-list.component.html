@@ -8,7 +8,7 @@
         {{ mediator.specialization }}
         <div class="ratings-row"> 
           <div class="golden-star">
-            {{ convertToStars(mediator.ai_rating) }}
+            {{ convertToStars(20*mediator.user_rating) }}
           </div>
           Liczba opinii: {{ mediator.number_of_opinions }}
         </div>
@@ -16,9 +16,9 @@
     </mat-card-header>
     <mat-card-content>
       <p>
-       <mat-icon>location_on </mat-icon>  {{ generateCity() }} {{ generateAddress() }}  <br> 
-       <mat-icon> attach_money</mat-icon> Cena za godzinę: {{ generateCost() }} zł<br>
-        @if(generateOnline()) { <p class="available"> Mediacja zdalna </p> }
+       <mat-icon>location_on </mat-icon>  {{ mediator.localization }} {{ mediator.street }}  <br> 
+       <mat-icon> attach_money</mat-icon> Cena za godzinę: {{ mediator.price }} zł<br>
+        @if(mediator.online) { <p class="available"> Mediacja zdalna </p> }
       </p>
     </mat-card-content>
     <mat-card-actions>

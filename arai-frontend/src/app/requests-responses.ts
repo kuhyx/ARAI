@@ -17,6 +17,18 @@ export class GenericRequest {
     } 
 }
 
+export interface Mediator {
+    "name": string,
+    "specialization": string,
+    "localization": string,
+    "street": string,
+    "online": string,
+    "ai_rating": number,
+    "user_rating": number,
+    "number_of_opinions": number,
+    "price": number
+}
+
 export interface userInput {
     "generic_input": string, 
     "trial_cost": number,
@@ -68,7 +80,7 @@ interface response {
         cost_of_trial: number,
         time_of_trial: number
     },
-    second: RecommendedMediatorsInterface[];
+    second: Mediator[];
 }
 
 export class ReturnResponse {

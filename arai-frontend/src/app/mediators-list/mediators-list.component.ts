@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table'
-import { RecommendedMediatorsInterface } from '../requests-responses';
+import { Mediator, RecommendedMediatorsInterface } from '../requests-responses';
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button';
 import { faker } from '@faker-js/faker';
 import {MatIconModule } from '@angular/material/icon'
 import { MatDialog } from '@angular/material/dialog';
 import { EmailInputComponent } from '../email-input/email-input.component';
+import { MediatorzyService } from '../mediatorzy.service';
 
 @Component({
   selector: 'app-mediators-list',
@@ -16,34 +17,16 @@ import { EmailInputComponent } from '../email-input/email-input.component';
   styleUrl: './mediators-list.component.scss'
 })
 export class MediatorsListComponent {
-  @Input() mediatorzy: RecommendedMediatorsInterface[] = [
-    {
-        "name": "Mateusz Szpyruk",
-        "specialization": "Prawo podatkowe",
-        "localization": "Katowice",
-        "ai_rating": 99,
-        "user_rating": 99,
-        "number_of_opinions": 5
-    },
-    {
-        "name": "Jan Kowalski",
-        "specialization": "Prawo pracy",
-        "localization": "Katowice",
-        "ai_rating": 90,
-        "user_rating": 99,
-        "number_of_opinions": 5
-    },
-    {
-        "name": "Jan Kowalski",
-        "specialization": "Prawo pracy",
-        "localization": "Katowice",
-        "ai_rating": 76,
-        "user_rating": 99,
-        "number_of_opinions": 5
-    }
-]
+  @Input() mediatorzy: Mediator[] = []
 
-constructor(private readonly dialog: MatDialog) {}
+constructor(private readonly dialog: MatDialog, private readonly mediatorzyService: MediatorzyService) {
+  this.mediatorzy = mediatorzyService.mediatorzy;
+}
+
+ngOnInit() {
+  this.mediatorzy = this.mediatorzyService.mediatorzy;
+  console.log(`this.mediatorzy: `, this.mediatorzy);
+}
 
 generatePersonInfo() {
   const personInfo = {
