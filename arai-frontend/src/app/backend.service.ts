@@ -32,17 +32,25 @@ export class BackendService {
     }
   }
 
-  public sendMessage(message: GenericRequest): void {
-    if(message.request_type === "user_input") {
-      this.userInputArray.push(message as UserInputRequest);
-    }
-    const headers = new HttpHeaders().set(
-      "Content-Type",
-      "application/json"
-    );
-    console.log(`request: `, JSON.stringify(message));
-    this.http.post(this.address, JSON.stringify(message), {headers}).subscribe((response) => {
-      console.log(`response: `, response);
-    })
+  public sendMessage(message: GenericRequest): Promise<GenericResponse> {
+    return new Promise((resolve, reject) => {
+      if (message.request_type === "user_input") {
+        this.userInputArray.push(message as UserInputRequest);
+      }
+      const headers = new HttpHeaders().set("Content-Type", "application/json");
+  
+      console.log(`request: `, JSON.stringify(message));
+  
+      this.http.post<GenericResponse>(this.address, JSON.stringify(message), { headers }).subscribe({
+        next: (response) => {
+          console.log(`response: `, response);
+          resolve(response);
+        },
+        error: (error) => {
+          console.error(`backendService, sendMessage, error: `, error);
+          reject(error);
+        }
+      });
+    });
   }
 }

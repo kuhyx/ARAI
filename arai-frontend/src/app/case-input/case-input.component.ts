@@ -33,24 +33,15 @@ export class CaseInputComponent {
     });
   }
 
-  ngOnInit() {
-    const data: userInput = {
-      "generic_input": "Rozwodzę się z żoną i chcę uczciwie podzielić majątek",
-      "trial_cost": 1000,
-      "location": "Katowice",
-      "experts_called": true,
-      "witnesses_called": true
-  }
-    const newRequest = new UserInputRequest(data);
-    this.backendService.sendMessage(newRequest);
-  }
-
-  onSubmit(): void {
+  async onSubmit() {
+    this.userInput = this.userInputForm.value;
     if(this.userInput !== null) {
-      this.backendService.sendMessage(new UserInputRequest(this.userInput));
-    } else {
-      console.error(`caseInputComponent, onSubmit, userInput is null!`)
-    }
+    const newRequest = new UserInputRequest(this.userInput);
+    this.backendService.sendMessage(newRequest);
+    const result = await this.backendService.sendMessage(new UserInputRequest(this.userInput));
+    console.log(`result: `, result);
+  } else {
+    console.error(`caseInputComponent, onSubmit, userInput is null!`)
   }
-
+}
 }

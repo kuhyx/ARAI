@@ -1,1 +1,5 @@
-<p>cost-view works!</p>
+Przewidywalne minimalne koszta:
+@if(costData !== null) {
+    Koszta: {{costData.cost_of_trial}} zł <br> 
+    Przewidywalny czas: {{costData.time_of_trial | date:'L'}} miesiące  
+}
