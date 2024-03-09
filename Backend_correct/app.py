@@ -3,23 +3,9 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 @app.route("/", methods=['POST'])
-def statistics_output():
-    data = request.get_json()
-    cost_of_trial = data.get('response_data', {}).get('cost_of_trial')
-    time_of_trial = data.get('response_data', {}).get('time_of_trial')
-    
-    response = {
-        "response_type": "statics_output",
-        "response_data": {
-            "cost_of_trial": cost_of_trial, # cena w PLN (integer)
-            "time_of_trial": time_of_trial # czas w formacie UTC (unix time stamp)
-        }
-    }
-
-    return jsonify(response)
-
 def recommended_mediators():
     data = request.get_json()
+
     request_type = data.get('request_type', {}).get('request_type')
     request_data = data.get('request_data', {}).get('experts_called')
     generic_input = data.get('generic_input', {}).get('generic_input')
@@ -28,23 +14,35 @@ def recommended_mediators():
     experts_called = data.get('experts_called', {}).get('experts_called')
     witnesses_called = data.get('witnesses_called', {}).get('witnesses_called')
 
-    top_5 = {}
-    list_of_mediators = []
-
-    for i in range(5):
-        mediator = {}
-        top_5.add(mediator)
-    
-    response = {
+    top_5 = {
         "response_type": "recommended_mediators",
-        "response_data": {
-            "name": name,
-            "specialization": specialization,
+        "response_data": [{
+            "cost_of_trial": 5000,
+            "time_of_trial": 70
+            }, [{
+            "name": "Mateusz Szpyruk",
+            "specialization": "Prawo podatkowe",
             "localization": localization,
-            "score": score,
-            "number_of_opinions": number_of_opinions
+            "ai_rating": 99,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }, {
+            "name": "Jan Kowalski",
+            "specialization": "Prawo pracy",
+            "localization": localization,
+            "ai_rating": 90,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }, {
+            "name": "Jan Kowalski",
+            "specialization": "Prawo pracy",
+            "localization": localization,
+            "ai_rating": 90,
+            "user_rating": 99,
+            "number_of_opinions": 5
+            }]]
         }
-    }
+
 
     return jsonify(top_5)
 
